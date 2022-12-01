@@ -3,12 +3,29 @@
    [clojure.java.io :as io]
    [clojure.string :as str]))
 
-(defn cals []
-  (->> (str/split (slurp (io/resource "inputs/calorie-counting.txt")) #"\n{2}")
-    (map #(reduce + (map parse-long (str/split-lines %))))))
+(defn calorie [s]
+  {:calorie (parse-long s)})
 
-(defn part-one []
-  (reduce max (cals)))
+(defn elf [s]
+  {:calories (map calorie (str/split-lines s))})
 
-(defn part-two []
-  (reduce + (take 3 (sort > (cals)))))
+(defn elves [s]
+  (map elf (str/split s #"\n{2}")))
+
+(defn calories [cals]
+  (reduce + (map :calorie cals)))
+
+(defn cals [s]
+  (map #(calories (:calories %)) (elves s)))
+
+(defn part-one [input]
+  (reduce max (cals input)))
+
+(defn part-two [input] 
+  (reduce + (take 3 (sort > (cals input)))))
+
+(comment
+  (def counts (slurp (io/resource "inputs/calorie-counting.txt")))
+  
+  (part-one counts)
+  (part-two counts))

@@ -1,9 +1,9 @@
-(ns kyleerhabor.advent.calorie-counting
+(ns kyleerhabor.advent-2022.calorie-counting
   (:require
    [clojure.java.io :as io]
    [clojure.string :as str]))
 
-(defn- cals []
+(defn cals []
   (->> (str/split (slurp (io/resource "inputs/calorie-counting.txt")) #"\n{2}")
     (map #(reduce + (map parse-long (str/split-lines %))))))
 

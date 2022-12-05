@@ -21,11 +21,13 @@
 (defn part-one [input]
   (reduce max (cals input)))
 
-(defn part-two [input] 
+(defn part-two [input]
   (reduce + (take 3 (sort > (cals input)))))
 
 (comment
-  (def counts (slurp (io/resource "inputs/calorie-counting.txt")))
-  
+  (require '[kyleerhabor.advent-2022.core :refer [input]])
+
+  (def counts (input "inputs/calorie-counting.txt")) 
+
   (part-one counts)
   (part-two counts))

@@ -3,12 +3,6 @@
     [clojure.set :refer [intersection]]
     [clojure.string :as str]))
 
-(defn parse-backpack [s]
-  (partition (/ (count s) 2) s))
-
-(defn parse [s]
-  (map parse-backpack (str/split-lines s)))
-
 (defn same? [f x]
   (= x (f x)))
 

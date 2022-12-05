@@ -30,11 +30,6 @@
   (->> (parse s)
     (filter (fn [[a1 a2]]
               (overlaps? a1 a2)))
-    count)
-  #_(->> (parse s)
-    (filter (fn [[a1 a2]]
-              (overlaps? a1 a2)
-              #_(or (overlaps? a1 a2) #_(overlaps? a2 a1))))
     count))
 
 (comment

@@ -3,3 +3,8 @@
 
 (defn input [res]
   (slurp (io/resource res)))
+
+(defmacro capture [& body]
+  `(try ~@body
+     (catch Exception e#
+       e#)))

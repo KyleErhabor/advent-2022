@@ -5,7 +5,7 @@
 (defn part-one [s]
   (+ 4 (str/index-of s (->> (map (fn [& cs]
                                    (if (apply distinct? cs)
-                                     (apply str cs))) s (next s) (next (next s)) (next (next (next s))))
+                                     (apply str cs))) s (drop 1 s) (drop 2 s) (drop 3 s))
                          (filter identity)
                          first))))
 
@@ -14,7 +14,7 @@
                                    (if (apply distinct? cs)
                                      (apply str cs))) s
                               (drop 1 s) (drop 2 s) (drop 3 s) (drop 4 s) (drop 5 s) (drop 6 s) (drop 7 s) (drop 8 s)
-                              (drop 9 s) (drop 10 s) (drop 11 s) (drop 12 s) (drop 13 s) (drop 14 s))
+                              (drop 9 s) (drop 10 s) (drop 11 s) (drop 12 s) (drop 13 s))
                          (filter identity)
                          first))))
 

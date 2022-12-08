@@ -50,3 +50,67 @@
   (capture (part-one s))
   
   (part-two s))
+
+(def input s)
+
+(def crates
+  (-> (str/replace input #"\[|\]" " ")
+    (str/replace #" " "-")
+    (str/split-lines)
+    (as-> c
+      (let [separator (.indexOf c "")
+            c (take separator c)
+            c (map #(str/split % #"") c)]
+        (->>
+          (apply map vector c)
+          (mapv
+            #(filterv
+               (fn [x] (re-find #"[a-zA-Z0-9]" x))
+               %))
+          (filterv #(> (count %) 1))
+          (map #(let [key (read-string (last %))
+                      res (pop %)]
+                  {key (apply list res)}))
+          (apply merge))))))
+
+(def steps
+  (-> input
+    (str/split-lines)
+    (as-> c
+      (let [separator (.indexOf c "")
+            c (nthrest c (+ separator 1))
+            c (map #(str/split % #" ") c)
+            c (mapv #(filterv
+                       (fn [x]
+                         (re-find #"[0-9]" x))
+                       %)
+                c)]
+        (mapv #(mapv (fn [x] (read-string x)) %)
+          c)))))
+
+(def arranged-crates
+  (reduce
+    (fn [acc step]
+      (let [from (second step)
+            to (last step)
+            quantity (first step)]
+        (-> acc
+          (assoc to
+            (concat (reverse
+                      (take quantity
+                        (get acc from)))
+              (get acc to)))
+          (assoc from
+            (remove (set (take quantity
+                           (get acc
+                             from)))
+              (get acc from))))))
+    crates
+    steps))
+
+(defn part-one
+  [coll]
+  (->> (sort coll)
+    (vals)
+    (map #(first %))
+    str/join))
